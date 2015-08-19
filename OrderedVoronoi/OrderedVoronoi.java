@@ -13,9 +13,9 @@ import toxi.geom.mesh2d.*;
 
 public class OrderedVoronoi extends Voronoi
 {
-    public List<Polygon2D> getRegions()
+	public List<Polygon2D> getRegions()
 	{
-        List<Polygon2D> regions = new LinkedList<Polygon2D>();
+		List<Polygon2D> regions = new LinkedList<Polygon2D>();
 
 		// Map each point to its niput pusition.
 		Map<Vec2D, Integer> pointPositions = new HashMap<Vec2D, Integer>();
@@ -24,16 +24,14 @@ public class OrderedVoronoi extends Voronoi
 				pointPositions.put(point, pointPositions.size());
 		}
 
-        Set<DelaunayVertex> delaunaySites = new HashSet<DelaunayVertex>(initialTriangle);
+		Set<DelaunayVertex> delaunaySites = new HashSet<DelaunayVertex>(initialTriangle);
 		Map<Integer, DelaunayVertex> delaunayPoints = new TreeMap<Integer, DelaunayVertex>();
 		Map<DelaunayVertex, DelaunayTriangle> delaunayTriangles = new HashMap<DelaunayVertex, DelaunayTriangle>();
 
-        for (DelaunayTriangle triangle : delaunay) {
-            for (DelaunayVertex site : triangle) {
-                if (delaunaySites.contains(site)) {
-                    continue;
-                }
-                delaunaySites.add(site);
+		for (DelaunayTriangle triangle : delaunay) {
+			for (DelaunayVertex site : triangle) {
+				if (delaunaySites.contains(site))
+					continue;
 
 				Vec2D point = new Vec2D((float)site.coord(0), (float)site.coord(1));
 				if (!pointPositions.containsKey(point))
@@ -41,6 +39,8 @@ public class OrderedVoronoi extends Voronoi
 
 				delaunayPoints.put(pointPositions.get(point), site);
 				delaunayTriangles.put(site, triangle);
+
+				delaunaySites.add(site);
 			}
 		}
 
@@ -56,6 +56,6 @@ public class OrderedVoronoi extends Voronoi
 			regions.add(poly);
 		}
 
-        return regions;
-    }
+		return regions;
+	}
 }
